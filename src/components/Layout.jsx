@@ -14,7 +14,7 @@ function Layout() {
             <TopBar />
 
             {/* Main Content Area */}
-            <main className="p-4 md:p-6 mt-16 md:mt-0 flex-1 w-full max-w-full overflow-x-hidden">
+            <main className="p-4 md:p-6 flex-1 w-full max-w-full overflow-x-hidden">
                 <Outlet />
             </main>
         </div>

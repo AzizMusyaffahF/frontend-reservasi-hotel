@@ -176,15 +176,6 @@ const Rooms = () => {
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Manajemen Kamar</h1>
           <p className="text-gray-600">Kelola daftar kamar hotel Grand Nusantara</p>
         </div>
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="px-6 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors flex items-center gap-2 shadow-md"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-          Tambah Kamar
-        </button>
       </div>
 
       {/* Filter Section */}

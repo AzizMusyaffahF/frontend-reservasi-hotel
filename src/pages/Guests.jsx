@@ -59,7 +59,7 @@ const Guests = () => {
       const response = await api.get('/guests');
 
       let allGuests = response.data.success ? response.data.data : [];
-      
+
       // Fitur search di lokal (frontend react);
       if (filters.search) {
         const keyword = filters.search.toLowerCase();
@@ -299,7 +299,7 @@ const Guests = () => {
           {/* Gender Filter */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Jenis Kelamin
+                            Jenis Kelamin
             </label>
             <select
               name="gender"
@@ -636,23 +636,23 @@ const Guests = () => {
                 </svg>
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                Hapus Data Tamu?
+                Delete guest data?
               </h3>
               <p className="text-gray-600 mb-6">
-                Apakah Anda yakin ingin menghapus <strong>{deleteConfirm.name}</strong>? Tindakan ini tidak dapat dibatalkan.
+                Are you sure want to delete? <strong>{deleteConfirm.name}</strong>? This action cannot be undone
               </p>
               <div className="flex justify-center gap-3">
                 <button
                   onClick={() => setDeleteConfirm(null)}
                   className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-gray-700"
                 >
-                  Batal
+                  Cancel
                 </button>
                 <button
                   onClick={confirmDelete}
                   className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                 >
-                  Ya, Hapus
+                  Yes, Delete
                 </button>
               </div>
             </div>

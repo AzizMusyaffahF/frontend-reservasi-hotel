@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import api from '../api/api';
-import { 
-  Search, 
-  Plus, 
-  Eye, 
+import {
+  Search,
+  Plus,
+  Eye,
   XCircle,
-  ChevronLeft, 
+  ChevronLeft,
   ChevronRight,
   Calendar,
   User,
@@ -68,12 +68,29 @@ const Reservations = () => {
 
   const fetchRoomData = async () => {
     try {
-      const [roomTypesRes, roomsRes] = await Promise.all([
-        api.get('/room-types'),
-        api.get('/rooms')
-      ]);
-      setRoomTypes(roomTypesRes.data.success ? roomTypesRes.data.data : []);
-      setRooms(roomsRes.data.success ? roomsRes.data.data : []);
+      const roomsRes = await api.get('/rooms');
+
+      const roomsData = roomsRes.data.success
+        ? roomsRes.data.data
+        : [];
+
+      setRooms(roomsData);
+
+      const uniqueRoomTypes = [
+        ...new Map(
+          roomsData.map(room => [
+            room.room_type_id,
+            {
+              id: room.room_type_id,
+              name: room.room_type_name,
+              base_price: room.base_price
+            }
+          ])
+        ).values()
+      ];
+
+      setRoomTypes(uniqueRoomTypes);
+
     } catch (err) {
       console.error('Error fetching room data:', err);
     }
@@ -95,7 +112,7 @@ const Reservations = () => {
           const guestName = getGuestName(r.guest_id).toLowerCase();
           const roomNumber = getRoomNumber(r.room_id).toLowerCase();
           const code = (r.reservation_code || '').toLowerCase();
-          
+
           return code.includes(keyword) || guestName.includes(keyword) || roomNumber.includes(keyword);
         });
       }
@@ -234,14 +251,14 @@ const Reservations = () => {
   // ====== HANDLE FORM ======
   const calculateTotalPrice = () => {
     if (!formData.room_type_id || !formData.check_in_date || !formData.check_out_date) return 0;
-    
+
     const roomType = roomTypes.find(rt => rt.id === parseInt(formData.room_type_id));
     if (!roomType) return 0;
 
     const checkIn = new Date(formData.check_in_date);
     const checkOut = new Date(formData.check_out_date);
     const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
-    
+
     return nights > 0 ? roomType.base_price * nights : 0;
   };
 
@@ -256,29 +273,38 @@ const Reservations = () => {
     setFormError(null);
 
     try {
-      const totalPrice = calculateTotalPrice();
-      const reservationData = {
+      const roomType = roomTypes.find(
+        rt => rt.id === parseInt(formData.room_type_id)
+      );
+
+      const payload = {
         guest_id: parseInt(formData.guest_id),
-        room_type_id: parseInt(formData.room_type_id),
-        room_id: formData.room_id ? parseInt(formData.room_id) : null,
-        check_in_date: formData.check_in_date,
-        check_out_date: formData.check_out_date,
-        total_adults: parseInt(formData.total_adults),
-        total_children: parseInt(formData.total_children),
-        total_price: totalPrice,
-        payment_method: formData.payment_method,
-        payment_type: formData.payment_type,
-        initial_payment: parseFloat(formData.initial_payment) || 0
+        rooms: [
+          {
+            room_type_id: parseInt(formData.room_type_id),
+            room_id: formData.room_id
+              ? parseInt(formData.room_id)
+              : null,
+            price_per_night: Number(roomType?.base_price || 0),
+            check_in_date: formData.check_in_date,
+            check_out_date: formData.check_out_date,
+            total_adults: parseInt(formData.total_adults),
+            total_children: parseInt(formData.total_children)
+          }
+        ]
       };
 
-      await api.post('/reservations', reservationData);
-      
+      await api.post('/reservations', payload);
+
       setShowModal(false);
       resetForm();
       fetchReservations();
+
     } catch (err) {
       console.error('Error saving reservation:', err);
-      setFormError(err.response?.data?.message || 'Terjadi kesalahan');
+      setFormError(
+        err.response?.data?.message || 'Terjadi kesalahan'
+      );
     } finally {
       setFormLoading(false);
     }
@@ -291,7 +317,7 @@ const Reservations = () => {
 
     try {
       await api.put(`/reservations/${id}/cancel`);
-      fetchReservations();
+            fetchReservations();
     } catch (err) {
       console.error('Error canceling reservation:', err);
       alert(err.response?.data?.message || 'Gagal membatalkan reservasi');
@@ -602,7 +628,7 @@ const Reservations = () => {
             <form onSubmit={handleSubmit} className="p-6">
               {formError && (
                 <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
-                  {formError}
+                                    {formError}
                 </div>
               )}
 
@@ -658,7 +684,7 @@ const Reservations = () => {
                   >
                     <option value="">Otomatis (Check-in nanti)</option>
                     {rooms
-                      .filter(r => r.room_type_id === parseInt(formData.room_type_id) && r.status === 'available')
+                      .filter(r => r.room_type_id === parseInt(formData.room_type_id) && r.room_status === 'available')
                       .map(room => (
                         <option key={room.id} value={room.id}>{room.room_number}</option>
                       ))}

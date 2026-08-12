@@ -90,12 +90,12 @@ function Dashboard() {
     const maintenanceStatus = getMaintenanceStatus(room_summary?.maintenance_rooms, room_summary?.total_rooms);
 
     return (
-        <>
+        <div className="space-y-4">
         {/* Judul Halaman */}
         <h2 className="text-sm font-bold text-slate-800 tracking-wider">DASHBOARD</h2>
 
         {/* Baris 1: Kartu Statistik Kamar */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard 
             title="Total Kamar" 
             value={room_summary?.total_rooms} 
@@ -131,7 +131,7 @@ function Dashboard() {
         </div>
 
         {/* Baris 2: Kartu Statistik Aktivitas */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard 
             title="Check In Hari Ini" 
             value={reservation_summary?.expected_checkin}
@@ -167,14 +167,14 @@ function Dashboard() {
         </div>
 
         {/* Grafik & Status Kamar */}
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <ReservationChart data={daily_summary}/>
           <RoomStatusChart data={room_summary} />
         </div>
 
         {/* Tabel Reservasi Terbaru */}
         <RecentReservationTable reservations={recent_reservations}/>
-        </>
+        </div>
     );
 }
 
