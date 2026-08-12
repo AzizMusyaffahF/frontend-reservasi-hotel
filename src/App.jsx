@@ -34,7 +34,6 @@ export default function App() {
             <Route path="/reservations" element={<Reservations />} />
             <Route path="/check-in" element={<CheckIn />} />
             <Route path="/check-out" element={<CheckOut />} />
-            <Route path="/reports" element={<Reports />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/logout" element={<LogOut />} />
           </Route>
