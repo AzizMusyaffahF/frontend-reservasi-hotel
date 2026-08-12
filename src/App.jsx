@@ -14,7 +14,6 @@ import Guests from "./pages/Guests";
 import Reservations from "./pages/Reservations";
 import CheckIn from "./pages/CheckIn";
 import CheckOut from "./pages/CheckOut";
-import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
 import LogOut from "./pages/LogOut";
 import Login from "./pages/Login";
