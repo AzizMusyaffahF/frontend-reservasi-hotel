@@ -50,9 +50,6 @@ function SideBar() {
                     <NavLink to="/check-out" className={navLinkClass}>
                         <ArrowUpRight size={18} /> Check-Out
                     </NavLink>
-                    <NavLink to="/reports" className={navLinkClass}>
-                        <FileText size={18} /> Reports
-                    </NavLink>
                     <NavLink to="/settings" className={navLinkClass}>
                         <Settings size={18} /> Settings
                     </NavLink>
