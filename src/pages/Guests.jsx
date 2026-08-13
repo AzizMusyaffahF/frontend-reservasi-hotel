@@ -145,12 +145,11 @@ const Guests = () => {
         }
       } else {
         const response = await api.post('/guests', formData);
-        console.log("response dari backend", response.data);
         if (response.data.success) {
           closeModal();
           fetchGuests();
         } else {
-          setFormError(response.data.message || "Gagal menambah data");
+          setFormError("Gagal menambah data");
         }
       }
     } catch (err) {
