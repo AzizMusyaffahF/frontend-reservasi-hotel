@@ -149,7 +149,7 @@ const Guests = () => {
           closeModal();
           fetchGuests();
         } else {
-          setFormError(response.data.message || "Berhasil menambah data");
+          setFormError("Berhasil menambah data");
         }
       }
     } catch (err) {
