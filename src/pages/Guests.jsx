@@ -100,9 +100,9 @@ const Guests = () => {
       name: '',
       email: '',
       phone: '',
-      identity_type: 'identity_card',
+      identity_type: '',
       identity_number: '',
-      gender: 'male',
+      gender: '',
     });
     setFormError(null);
     setIsModalOpen(true);
@@ -149,7 +149,7 @@ const Guests = () => {
           closeModal();
           fetchGuests();
         } else {
-          setFormError("Gagal menambah data");
+          setFormError("Berhasil menyimpan data");
         }
       }
     } catch (err) {
