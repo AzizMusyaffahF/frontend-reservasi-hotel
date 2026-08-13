@@ -37,7 +37,7 @@ const CheckIn = () => {
   const [checkInData, setCheckInData] = useState({
     idCardVerified: false,
     paymentConfirmed: false,
-    depositAmount: 0,
+    depositAmount: "",
     notes: ''
   });
   const [processing, setProcessing] = useState(false);
